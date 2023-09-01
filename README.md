@@ -1,6 +1,6 @@
-# alpaca_time
+# Alpaca Time
 
-A new Flutter project.
+Flutterの練習のための、勤務時間を打刻するWebアプリです。
 
 ## Getting Started
 
