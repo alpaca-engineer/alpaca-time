@@ -115,7 +115,7 @@ class TimecardPage extends StatelessWidget {
           children: [
             ElevatedButton.icon(
               onPressed: () {
-                print('hello');
+                print('Hello');
               },
               icon: Icon(Icons.play_circle),
               label: const Text('Start'),
@@ -123,8 +123,8 @@ class TimecardPage extends StatelessWidget {
             const SizedBox(width: 10),
             ElevatedButton.icon(
               onPressed: () {
-                print('goodbye');
-              },
+                print('Goodbye');
+              }, 
               icon: Icon(Icons.stop_circle),
               label: const Text('End'),
             ),
