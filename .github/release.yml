@@ -1,0 +1,10 @@
+# .github/release.yml
+
+changelog:
+  categories:
+    - title: Buf Fixes 🛠
+      labels:
+        - bug
+    - title: Enhancement 🎉
+      labels:
+        - enhancement
