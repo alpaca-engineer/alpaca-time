@@ -22,4 +22,4 @@ jobs:
 
   build:
     needs: merge-to-production
-    uses: ./.github/workflows/build.yml@pre-production
+    uses: ./.github/workflows/build.yml
