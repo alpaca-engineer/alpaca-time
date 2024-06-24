@@ -19,4 +19,4 @@ jobs:
         run: |
           git checkout production
           git merge origin/main
-          git push origin production
+          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git production
