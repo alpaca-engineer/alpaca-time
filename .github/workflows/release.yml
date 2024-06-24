@@ -29,27 +29,17 @@ jobs:
   upload-release:
     needs: build
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/download-artifact@v3
         with:
           name: android-apk
           path: ./build
-      - name: Create release
-        id: create_release
-        uses: actions/create-release@v1
+      - name: Create and Upload Release
+        uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: ${{ github.ref_name }}
-          release_name: Release ${{ github.ref_name }}
-          draft: true
-          prerelease: false
-      - name: Upload APK to release
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./build/app-release.apk
-          asset_name: app-release.apk
-          asset_content_type: application/vnd.android.package-archive
+          files: ./build/app-release.apk
+          tag_name: ${{ github.ref }}
