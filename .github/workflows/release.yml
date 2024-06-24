@@ -4,7 +4,7 @@ on:
     tags:
       - "v*.*.*"
 jobs:
-  build:
+  merge-to-production:
     runs-on: ubuntu-latest
     env:
       VERSION: ${{ github.ref_name }}
@@ -13,9 +13,13 @@ jobs:
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # 全てのブランチを取得
       - name: Release to production
         run: |
           git checkout production
-          git merge origin/main
-          git push https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/${{ github.repository }}.git production
+          git merge main
+          git push origin production
+
+  build:
+    needs: merge-to-production
+    uses: ./.github/workflows/build.yml@pre-production
