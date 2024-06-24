@@ -36,10 +36,12 @@ jobs:
         with:
           name: android-apk
           path: ./build
-      - name: Create and Upload Release
+      - name: Archive
+        run: cd build && zip -r alpaca-time-${{ github.ref_name }}.zip app-release.apk
+      - name: Release
         uses: softprops/action-gh-release@v1
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
           files: ./build/app-release.apk
-          tag_name: ${{ github.ref }}
+          name: ${{ github.ref_name }}
