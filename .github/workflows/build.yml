@@ -14,7 +14,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Confirm version
-        run: echo ${VERSION}
+        run: echo $VERSION
       - uses: actions/checkout@v3
       - name: Import tool versions
         uses: wasabeef/import-asdf-tool-versions-action@v1.0.1
