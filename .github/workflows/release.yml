@@ -43,5 +43,5 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          files: ./build/app-release.apk
+          files: ./build/alpaca-time-${{ github.ref_name }}.zip
           name: ${{ github.ref_name }}
