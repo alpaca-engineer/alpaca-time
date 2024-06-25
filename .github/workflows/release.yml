@@ -37,7 +37,7 @@ jobs:
           name: android-apk
           path: ./build
       - name: Archive
-        run: cd build && zip -r alpaca-time-${{ github.ref_name }}.zip app-release.apk
+        run: zip -r alpaca-time-${{ github.ref_name }}.zip ./build/
       - name: Release
         uses: softprops/action-gh-release@v1
         env:
