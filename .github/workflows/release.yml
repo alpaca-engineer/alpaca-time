@@ -4,47 +4,32 @@ on:
     tags:
       - "v*.*.*"
 jobs:
-  merge-to-production:
+  create-release-pr:
     runs-on: ubuntu-latest
-    env:
-      VERSION: ${{ github.ref_name }}
-    permissions: write-all
+    permissions:
+      contents: read
+      pull-requests: write
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@v3
         with:
-          fetch-depth: 0 # 全てのブランチを取得
-          token: ${{ secrets.GH_PAT }}
-      - name: Release to production
+          fetch-tags: true
+      - name: Set up Git
         run: |
-          git checkout production
-          git merge origin/main
-          git push origin production
-        env:
-          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
-
-  build:
-    needs: merge-to-production
-    uses: ./.github/workflows/build.yml
-    permissions:
-      contents: write
-
-  upload-release:
-    needs: build
-    runs-on: ubuntu-latest
-    permissions:
-      contents: write
-    steps:
-      - uses: actions/download-artifact@v3
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+      - name: Create a new branch from tag
+        run: |
+          TAG_NAME=${GITHUB_REF#refs/tags/}
+          echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
+          BRANCH_NAME=release/${TAG_NAME}
+          echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+          git checkout -b $BRANCH_NAME $TAG_NAME
+      - name: Create Pull Request
+        uses: peter-evans/create-pull-request@v5
         with:
-          name: android-apk
-          path: ./build
-      - name: Archive
-        run: zip -r alpaca-time-${{ github.ref_name }}.zip ./build/
-      - name: Release
-        uses: softprops/action-gh-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          files: ./build/alpaca-time-${{ github.ref_name }}.zip
-          name: ${{ github.ref_name }}
+          branch: ${{ env.branch_name }}
+          title: "Release ${{ env.tag_name }}"
+          body: |
+            This pull request is automatically created for the release of tag ${{ env.tag_name }}.
+          base: production
