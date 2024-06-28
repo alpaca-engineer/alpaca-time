@@ -27,6 +27,7 @@ jobs:
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
           git fetch --tags
           git checkout -b $BRANCH_NAME $TAG_NAME
+          git push origin $BRANCH_NAME
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
