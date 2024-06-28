@@ -30,8 +30,8 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
-          branch: ${{ env.branch_name }}
+          branch: production
           title: "Release ${{ env.tag_name }}"
           body: |
             This pull request is automatically created for the release of tag ${{ env.tag_name }}.
-          base: production
+          base: ${{ env.branch_name }}
