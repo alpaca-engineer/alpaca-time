@@ -11,9 +11,10 @@ jobs:
       pull-requests: write
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v3
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          fetch-tags: true
+          fetch-depth: 0 # 全てのブランチとタグを取得する
       - name: Set up Git
         run: |
           git config --global user.name 'github-actions[bot]'
@@ -24,6 +25,7 @@ jobs:
           echo "tag_name=$TAG_NAME" >> $GITHUB_ENV
           BRANCH_NAME=release/${TAG_NAME}
           echo "branch_name=$BRANCH_NAME" >> $GITHUB_ENV
+          git fetch --tags
           git checkout -b $BRANCH_NAME $TAG_NAME
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
