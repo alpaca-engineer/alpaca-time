@@ -15,7 +15,7 @@ jobs:
       - name: Fast forward merge
         uses: endre-spotlab/fast-forward-js-action@2.1
         with:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GITHUB_TOKEN: ${{ secrets.GH_PAT }}
           success_message: "Fast-forward merge successful!"
           failure_message: "Fast-forward merge failed."
           update_status: true
