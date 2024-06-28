@@ -32,3 +32,5 @@ jobs:
             --base production --head ${{ env.branch_name }} \
             --title "Release ${{ env.tag_name }}" \
             --body "This pull request is automatically created for the release of tag ${{ env.tag_name }}."
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
